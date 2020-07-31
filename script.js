@@ -41,7 +41,7 @@ async function getQuote() {
     quoteText.innerText = data.quoteText;
     hideLoadingSpinner();
   } catch (error) {
-    if (errorCount <= 10) {
+    if (errorCount < 10) {
       setTimeout(function () {
         getQuote();
       }, 500);
