@@ -5,6 +5,7 @@ const twitterBtn = document.getElementById("twitter");
 const newQuoteBtn = document.getElementById("new-quote");
 const loader = document.getElementById("loader");
 let errorCount = 0;
+fallbackApi = "http://127.0.0.1:5500/weisheiten.json";
 
 function showLoadingSpinner() {
   loader.hidden = false;
@@ -24,8 +25,16 @@ async function getQuote() {
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const apiUrl =
     "http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json";
+  let urlWithProxy;
+  if (errorCount < 9) {
+    urlWithProxy = proxyUrl + apiUrl;
+  }
+  if (errorCount === 9) {
+    urlWithProxy = fallbackApi;
+  }
+
   try {
-    const response = await fetch(proxyUrl + apiUrl);
+    const response = await fetch(urlWithProxy);
     const data = await response.json();
     if (data.quoteAuthor === "") {
       authorText.innerText = "Unbekannt";
@@ -46,6 +55,8 @@ async function getQuote() {
         getQuote();
       }, 500);
       errorCount++;
+    } else {
+      getQuote(fallbackApi);
     }
   }
 }
