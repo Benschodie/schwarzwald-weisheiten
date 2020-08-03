@@ -5,7 +5,7 @@ const twitterBtn = document.getElementById("twitter");
 const newQuoteBtn = document.getElementById("new-quote");
 const loader = document.getElementById("loader");
 let errorCount = 0;
-fallbackApi = "http://127.0.0.1:5500/weisheiten.json";
+fallbackApi = "/weisheiten.json";
 
 function showLoadingSpinner() {
   loader.hidden = false;
